@@ -1,8 +1,8 @@
+import { Button } from "@/app/_components/ui/button";
+
 const Home = () => {
   return (
-    <div className="  flex items-center   justify-center w-screen">
-      <h1>testdsde</h1>
-    </div>
+    <Button>Teste</Button>
   );
 };
 
