@@ -13,7 +13,7 @@ const LoginPage = async () => {
 
   return (
     <div className="grid h-full grid-cols-2">
-      <div className="flex h-full max-w-[550px] flex-col justify-center p-8">
+      <div className="flex h-full max-w-[550px] flex-col justify-center p-9">
         <Image
           src="logo.svg"
           className="mb-8"
