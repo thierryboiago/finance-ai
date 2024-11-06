@@ -23,7 +23,7 @@ const LoginPage = async () => {
         />
         <h1 className="mb-3 text-4xl font-bold">Bem vindo</h1>
         <p className="mb-8 text-muted-foreground">
-          finance.ai Bem-vindo A Finance AI é uma plataforma de gestão
+          finance.ai Bem-vindo A Finance AI é uma plataforma dee gestão
           financeira que utiliza IA para monitorar suas movimentações, e
           oferecer insights personalizados, facilitando o controle do seu
           orçamento. Entrar com Google
