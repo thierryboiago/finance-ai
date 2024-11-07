@@ -17,12 +17,13 @@ model Transaction {
   id            String                   @id @default(uuid())
   name          String
   type          TransactionType
-  ammount       Decimal                  @db.Decimal(10, 2)
+  amount        Decimal                  @db.Decimal(10, 2)
   category      TransactionCategory
   paymentMethod TransactionPaymentMethod
   date          DateTime
   createdAt     DateTime                 @default(now())
   updatedAt     DateTime                 @default(now())
+  userId        String
 }
 
 enum TransactionType {
