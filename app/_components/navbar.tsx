@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { UserButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -41,6 +42,7 @@ const Navbar = () => {
           Assinatura
         </Link>
       </div>
+      <UserButton showName />
     </nav>
   );
 };
