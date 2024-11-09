@@ -6,44 +6,20 @@ import {
   WalletIcon,
 } from "lucide-react";
 import SumaryCard from "@/app/(home)/_components/sumary-card";
-import { db } from "@/app/_lib/prisma";
 
 interface SummaryCardProps {
-  month: string;
+  balance: number;
+  depositsTotal: number;
+  expensesTotal: number;
+  investmentsTotal: number;
 }
 
-const SummaryCards = async ({ month }: SummaryCardProps) => {
-  const where = {
-    date: {
-      gte: new Date(`2024-${month}-01`),
-      lt: new Date(`2024-${month}-31`),
-    },
-  };
-  const investmentTotal = Number(
-    (
-      await db.transaction.aggregate({
-        where: { ...where, type: "INVESTMENT" },
-        _sum: { amount: true },
-      })
-    )?._sum?.amount,
-  );
-  const expanseTotal = Number(
-    (
-      await db.transaction.aggregate({
-        where: { ...where, type: "EXPENSE" },
-        _sum: { amount: true },
-      })
-    )?._sum?.amount,
-  );
-  const depositTotal = Number(
-    (
-      await db.transaction.aggregate({
-        where: { ...where, type: "DEPOSIT" },
-        _sum: { amount: true },
-      })
-    )?._sum?.amount,
-  );
-  const balance = depositTotal - investmentTotal - expanseTotal;
+const SummaryCards = async ({
+  balance,
+  investmentsTotal,
+  expensesTotal,
+  depositsTotal,
+}: SummaryCardProps) => {
   return (
     <div className="space-y-6">
       <SumaryCard
@@ -57,17 +33,17 @@ const SummaryCards = async ({ month }: SummaryCardProps) => {
         <SumaryCard
           icon={<PiggyBankIcon size={16} />}
           title="Investido"
-          amount={investmentTotal}
+          amount={investmentsTotal}
         />
         <SumaryCard
           icon={<TrendingUpIcon className="text-primary" size={16} />}
           title="Receita"
-          amount={depositTotal}
+          amount={depositsTotal}
         />
         <SumaryCard
           icon={<TrendingDownIcon size={16} className="text-red-500" />}
           title="Despesa"
-          amount={expanseTotal}
+          amount={expensesTotal}
         />
       </div>
     </div>
