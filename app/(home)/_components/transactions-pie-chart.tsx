@@ -2,7 +2,7 @@
 
 import { Pie, PieChart } from "recharts";
 
-import { Card, CardContent } from "@/app/_components/ui/card";
+import { CardContent } from "@/app/_components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -12,7 +12,8 @@ import {
 import { TransactionType } from "@prisma/client";
 import { TransactionPercentagePerType } from "@/app/_data/get-dashboard/types";
 import { PiggyBankIcon, TrendingDownIcon, TrendingUpIcon } from "lucide-react";
-import PercentageItem from "@/app/(home)/_components/percentage-item";
+import PercentageItem from "./percentage-item";
+import { ScrollArea } from "@/app/_components/ui/scroll-area";
 
 const chartConfig = {
   [TransactionType.INVESTMENT]: {
@@ -32,22 +33,17 @@ const chartConfig = {
 interface TransactionsPieChartProps {
   typesPercentage: TransactionPercentagePerType;
   depositsTotal: number;
-  expensesTotal: number;
   investmentsTotal: number;
+  expensesTotal: number;
 }
 
 const TransactionsPieChart = ({
+  depositsTotal,
   investmentsTotal,
   expensesTotal,
-  depositsTotal,
   typesPercentage,
 }: TransactionsPieChartProps) => {
   const chartData = [
-    {
-      type: TransactionType.INVESTMENT,
-      amount: investmentsTotal,
-      fill: "#FFFFFF",
-    },
     {
       type: TransactionType.DEPOSIT,
       amount: depositsTotal,
@@ -58,46 +54,54 @@ const TransactionsPieChart = ({
       amount: expensesTotal,
       fill: "#E93030",
     },
+    {
+      type: TransactionType.INVESTMENT,
+      amount: investmentsTotal,
+      fill: "#FFFFFF",
+    },
   ];
   return (
-    <Card className="flex flex-col p-12">
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+    <ScrollArea className="h-full rounded-md border pb-6">
+      <CardContent className="space-y-6">
+        <CardContent className="flex-1 pb-0">
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[250px]"
+          >
+            <PieChart>
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Pie
+                data={chartData}
+                dataKey="amount"
+                nameKey="type"
+                innerRadius={60}
+              />
+            </PieChart>
+          </ChartContainer>
+
+          <div className="space-y-3">
+            <PercentageItem
+              icon={<TrendingUpIcon size={16} className="text-primary" />}
+              title="Receita"
+              value={typesPercentage[TransactionType.DEPOSIT]}
             />
-            <Pie
-              data={chartData}
-              dataKey="amount"
-              nameKey="type"
-              innerRadius={60}
+            <PercentageItem
+              icon={<TrendingDownIcon size={16} className="text-red-500" />}
+              title="Despesas"
+              value={typesPercentage[TransactionType.EXPENSE]}
             />
-          </PieChart>
-        </ChartContainer>
-        <div className="space-y-3">
-          <PercentageItem
-            value={typesPercentage[TransactionType.DEPOSIT]}
-            title="Investimento"
-            icon={<TrendingUpIcon className="text-primary" />}
-          />
-          <PercentageItem
-            value={typesPercentage[TransactionType.EXPENSE]}
-            title="Despesa"
-            icon={<TrendingDownIcon className="text-red-500" />}
-          />
-          <PercentageItem
-            value={typesPercentage[TransactionType.INVESTMENT]}
-            title="Receita"
-            icon={<PiggyBankIcon />}
-          />
-        </div>
+            <PercentageItem
+              icon={<PiggyBankIcon size={16} />}
+              title="Investido"
+              value={typesPercentage[TransactionType.INVESTMENT]}
+            />
+          </div>
+        </CardContent>
       </CardContent>
-    </Card>
+    </ScrollArea>
   );
 };
 
