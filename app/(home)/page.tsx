@@ -7,6 +7,7 @@ import { getDashboard } from "@/app/_data/get-dashboard";
 import { redirect } from "next/navigation";
 import Navbar from "@/app/_components/navbar";
 import ExpensesPerCategory from "@/app/(home)/_components/expenses-per-category";
+import LastTransactions from "@/app/(home)/_components/last-transactions";
 
 interface HomeProps {
   searchParams: {
@@ -32,7 +33,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <TimeSelect />
         </div>
-        <div className="grid grid-cols-[2fr,1fr]">
+        <div className="grid grid-cols-[2fr,1fr] gap-6">
           <div className="flex flex-col gap-6">
             <SummaryCards {...dashboard} />
 
@@ -43,6 +44,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
               />
             </div>
           </div>
+          <LastTransactions lastTransactions={dashboard.lastTransactions} />
         </div>
       </div>
     </>
