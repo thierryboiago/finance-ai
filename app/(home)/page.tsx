@@ -6,6 +6,7 @@ import TransactionsPieChart from "@/app/(home)/_components/transactions-pie-char
 import { getDashboard } from "@/app/_data/get-dashboard";
 import { redirect } from "next/navigation";
 import Navbar from "@/app/_components/navbar";
+import ExpensesPerCategory from "@/app/(home)/_components/expenses-per-category";
 
 interface HomeProps {
   searchParams: {
@@ -37,6 +38,9 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
 
             <div className="grid grid-cols-3 grid-rows-1 gap-6">
               <TransactionsPieChart {...dashboard} />
+              <ExpensesPerCategory
+                expensesPerCategory={dashboard.totalExpensePerCategory}
+              />
             </div>
           </div>
         </div>
