@@ -7,6 +7,7 @@ interface SumaryCardProps {
   title: string;
   amount: number;
   size?: "small" | "large";
+  userCanAddTransaction?: boolean;
 }
 
 const SumaryCard = ({
@@ -14,6 +15,7 @@ const SumaryCard = ({
   title,
   amount,
   size = "small",
+  userCanAddTransaction,
 }: SumaryCardProps) => {
   return (
     <Card className={`${size === "large" ? "bg-white bg-opacity-5" : ""}`}>
@@ -35,7 +37,9 @@ const SumaryCard = ({
           }).format(amount)}{" "}
         </p>
 
-        {size === "large" && <AddTransactionButton />}
+        {size === "large" && (
+          <AddTransactionButton userCanAddTransaction={userCanAddTransaction} />
+        )}
       </CardContent>
     </Card>
   );
